@@ -143,8 +143,11 @@ bool q_delete_dup(struct list_head *head)
                    strcmp(list_entry(cur, element_t, list)->value, val) == 0) {
                 struct list_head *temp = cur;
                 cur = cur->next;
-                free(temp);
+                element_t *entry = list_entry(temp, element_t, list);
+                free(entry->value);  // Free the string memory
+                free(entry);         // Free the node memory
             }
+            free(val);
             *ptr = cur;
         } else {
             ptr = &cur->next;
